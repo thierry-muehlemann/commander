@@ -1,0 +1,47 @@
+{
+  "name": "thierrysh/craft-commander",
+  "description": "easy keyboard access in the control-panel",
+  "type": "craft-plugin",
+  "license": "proprietary",
+  "support": {
+    "email": "thierry.sh@pm.me",
+    "issues": "https://github.com/thierry-muehlemann/craft-commander/issues?state=open",
+    "source": "https://github.com/thierry-muehlemann/craft-commander",
+    "docs": "https://github.com/thierry-muehlemann/craft-commander",
+    "rss": "https://github.com/thierry-muehlemann/craft-commander/releases.atom"
+  },
+  "require": {
+    "php": ">=8.2",
+    "craftcms/cms": "^5.8.0"
+  },
+  "require-dev": {
+    "craftcms/ecs": "dev-main",
+    "craftcms/phpstan": "dev-main"
+  },
+  "autoload": {
+    "psr-4": {
+      "thierrysh\\craftcommander\\": "src/"
+    }
+  },
+  "extra": {
+    "handle": "commander",
+    "name": "Commander",
+    "developer": "thierrysh",
+    "documentationUrl": "https://github.com/thierry-muehlemann/craft-commander"
+  },
+  "scripts": {
+    "check-cs": "ecs check --ansi",
+    "fix-cs": "ecs check --ansi --fix",
+    "phpstan": "phpstan --memory-limit=1G"
+  },
+  "config": {
+    "sort-packages": true,
+    "platform": {
+      "php": "8.2"
+    },
+    "allow-plugins": {
+      "yiisoft/yii2-composer": true,
+      "craftcms/plugin-installer": true
+    }
+  }
+}
