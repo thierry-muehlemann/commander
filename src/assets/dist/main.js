@@ -1,8 +1,4 @@
-import { hello } from "./whatup.js";
-
-const config = {
-  launchKey: "/",
-};
+import { filterCommands, runCommand } from "./commands.js";
 
 function el(tagName, className, children = []) {
   const node = document.createElement(tagName);
@@ -28,30 +24,105 @@ function mountApp() {
 
   // attaching event listeners
   window.addEventListener("keydown", (e) => {
-    if (e.key === config.launchKey) {
-      open(e);
-    } else if (e.key === "Escape") {
-      close(e);
+    // Bail if the user is typing in a form field
+    const tag = e.target.tagName;
+    if (
+      e.target.isContentEditable ||
+      tag === "INPUT" ||
+      tag === "TEXTAREA" ||
+      tag === "SELECT"
+    ) {
+      if (!e.ctrlKey) {
+        return;
+      }
+    }
+
+    switch (e.key) {
+      case "/":
+        e.preventDefault();
+        open();
+        break;
+      case "Escape":
+        e.preventDefault();
+        close();
+        break;
     }
   });
 
-  function open(e) {
+  input.addEventListener("input", (e) => {
+    handleSearch(e.target.value);
+  });
+
+  input.addEventListener("keydown", (e) => {
+    switch (e.key) {
+      case "Escape":
+        e.preventDefault();
+        close();
+        break;
+      case "ArrowDown":
+        e.preventDefault();
+        selectNext();
+        break;
+      case "ArrowUp":
+        e.preventDefault();
+        selectPrev();
+        break;
+      case "Enter":
+        if (commands?.length) {
+          runCommand(commands[commandIndex]);
+        }
+    }
+  });
+
+  function open() {
     root.classList.remove("hidden");
-    e.preventDefault();
     input.focus();
   }
 
-  function close(e) {
-    e.preventDefault();
+  function close() {
     input.blur();
     root.classList.add("hidden");
+
+    input.value = "";
+    results.innerText = null;
   }
 
-  input.addEventListener("input", (e) => {
-    const res = el("li");
-    res.innerText = e.target.value;
-    results.appendChild(res);
-  });
+  let commands;
+  let commandIndex = 0;
+
+  function handleSearch(query) {
+    results.innerText = null;
+
+    commands = filterCommands(query);
+
+    // display results
+    commands.forEach((cmd) => {
+      const res = el("li");
+      res.innerText = cmd.title;
+      results.appendChild(res);
+    });
+
+    if (commands.length) {
+      setSelection(0);
+    }
+  }
+
+  function selectNext() {
+    setSelection(Math.min(commands.length - 1, commandIndex + 1));
+  }
+
+  function selectPrev() {
+    setSelection(Math.max(0, commandIndex - 1));
+  }
+
+  function setSelection(nextIndex) {
+    const old = results.children.item(commandIndex);
+    if (old !== null) {
+      old.classList.remove("selected");
+    }
+    commandIndex = nextIndex;
+    results.children.item(commandIndex).classList.add("selected");
+  }
 }
 
 mountApp();

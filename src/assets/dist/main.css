@@ -35,6 +35,13 @@
     overflow: auto;
     li {
       padding: 0.5rem;
+      &.selected {
+        background: color-mix(
+          in oklab,
+          var(--bg-selection-light) 40%,
+          transparent
+        );
+      }
     }
   }
 }
