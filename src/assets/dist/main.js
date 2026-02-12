@@ -1,9 +1,21 @@
 import { filterCommands, runCommand } from "./commands.js";
 
+function getConfig() {
+  return window.commanderConfig;
+}
+
+const config = getConfig();
+
 function el(tagName, className, children = []) {
   const node = document.createElement(tagName);
   if (className) {
-    node.classList.add(className);
+    if (Array.isArray(className)) {
+      className.forEach((cn) => {
+        node.classList.add(cn);
+      });
+    } else {
+      node.classList.add(className);
+    }
   }
   if (children.length) {
     node.append(...children);
@@ -11,12 +23,31 @@ function el(tagName, className, children = []) {
   return node;
 }
 
+function createPlaceholder() {
+  const inProd = config.env.toLowerCase().startsWith("prod");
+
+  const infos = el("div", "infos", [
+    el("h4", "primarySite", config.siteUrl),
+    el("b", inProd ? "warning" : undefined, [
+      inProd ? "⚠ Production" : config.env,
+    ]),
+  ]);
+
+  const ad = el("div", "ad");
+  ad.innerHTML = `Commander is a <a target="_blank" href="https://thierry.sh">thierry.sh</a> project.`;
+
+  const placeholder = el("div", "placeholder", [infos, ad]);
+
+  return placeholder;
+}
+
 function mountApp() {
   // creating the markup
   const input = el("input");
   input.name = "commander";
+  const placeholder = createPlaceholder();
   const results = el("ul", "results");
-  const panel = el("div", "cmd-panel", [input, results]);
+  const panel = el("div", "cmd-panel", [input, results, placeholder]);
   const root = el("div", "commander", [panel]);
 
   document.body.appendChild(root);

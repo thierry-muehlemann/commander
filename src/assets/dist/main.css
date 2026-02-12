@@ -44,4 +44,31 @@
       }
     }
   }
+  ul.results:empty {
+    display: none;
+  }
+
+  .placeholder {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    flex: 1;
+    color: var(--text-color);
+    gap: 1rem;
+    .infos {
+      text-align: center;
+    }
+    h4 {
+      font-size: 2rem;
+    }
+    font-size: 1.5rem;
+    .ad {
+      font-size: 0.875rem;
+    }
+  }
+
+  ul.results:empty + .placeholder {
+    display: flex;
+  }
 }

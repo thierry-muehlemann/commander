@@ -6,6 +6,7 @@ use Craft;
 use craft\base\Event;
 use craft\base\Model;
 use craft\base\Plugin as BasePlugin;
+use craft\helpers\App;
 use craft\web\View;
 use thierrysh\craftcommander\assets\CommanderAsset;
 use thierrysh\craftcommander\models\Settings;
@@ -71,6 +72,11 @@ class Plugin extends BasePlugin
         View::EVENT_BEFORE_RENDER_TEMPLATE,
         function () {
           Craft::$app->getView()->registerAssetBundle(CommanderAsset::class);
+
+          Craft::$app->getView()->registerJsVar('commanderConfig', [
+            'siteUrl' => Craft::$app->getSites()->getPrimarySite()->baseUrl,
+            'env' => Craft::$app->config->env
+          ]);
         }
       );
     }
