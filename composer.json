@@ -27,7 +27,7 @@
     "handle": "commander",
     "name": "Commander",
     "developer": "thierrysh",
-    "documentationUrl": "https://github.com/thierry-muehlemann/craft-commander"
+    "documentationUrl": "https://github.com/Thierry-Muehlemann/commander"
   },
   "scripts": {
     "check-cs": "ecs check --ansi",
