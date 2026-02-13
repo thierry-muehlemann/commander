@@ -75,7 +75,29 @@ class Plugin extends BasePlugin
 
           Craft::$app->getView()->registerJsVar('commanderConfig', [
             'siteUrl' => Craft::$app->getSites()->getPrimarySite()->baseUrl,
-            'env' => Craft::$app->config->env
+            'env' => Craft::$app->config->env,
+            'entries' => [
+              'sections' =>
+              array_map(
+                fn($section) => [
+                  'handle' => $section->handle,
+                  'name' => $section->name,
+                  'id' => $section->id
+                ],
+                Craft::$app->getEntries()->getAllSections()
+              )
+            ],
+            'globals' => [
+              'sets' =>
+              array_map(
+                fn($section) => [
+                  'handle' => $section->handle,
+                  'name' => $section->name,
+                  'id' => $section->id
+                ],
+                Craft::$app->getGlobals()->getAllSets()
+              )
+            ]
           ]);
         }
       );

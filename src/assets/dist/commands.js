@@ -1,88 +1,213 @@
+import { getConfig } from "./config.js";
+
+const config = getConfig();
+
+console.log();
+
 export const commands = [
-  {
-    title: "Clear Caches",
-    url: "/admin/utilities/clear-caches",
-    keywords: ["cache", "clear", "utilities"],
-  },
-  {
-    title: "Database Backup",
-    url: "/admin/utilities/db-backup",
-    keywords: ["backup", "database", "utilities", "db"],
-  },
-  {
-    title: "Settings",
-    url: "/admin/settings",
-    keywords: ["settings", "config"],
-  },
+  // entries
   {
     title: "Entries",
     url: "/admin/entries",
-    keywords: ["entries", "content", "home"],
+    aliases: ["entries", "content", "home"],
   },
+  {
+    title: "Entries:all",
+    url: "/admin/entries?source=*",
+    aliases: ["content"],
+  },
+  ...config.entries.sections.map((s) => ({
+    title: `Entries:${s.name}`,
+    url: `/admin/entries/${s.handle}`,
+    aliases: ["content", `entries:${s.handle}`],
+  })),
+
+  // Globals
   {
     title: "Globals",
     url: "/admin/globals",
-    keywords: ["globals", "content"],
+    aliases: ["globals", "content"],
   },
+  ...config.globals.sets.map((s) => ({
+    title: `Globals:${s.name}`,
+    url: `/admin/globals/${s.handle}`,
+    aliases: ["content", `globals:${s.handle}`],
+  })),
+
+  // Assets
   {
-    title: "settings / Sites",
-    url: "/admin/settings/sites",
-    keywords: ["sites", "settings"],
+    title: "Assets",
+    url: "/admin/assets",
+    aliases: ["files", "fs", "directories"],
   },
+
+  // Users
   {
-    title: "settings / Sections",
-    url: "/admin/settings/sections",
-    keywords: ["sections", "settings"],
+    title: "Users",
+    url: "/admin/users",
+    aliases: [],
   },
+
+  // Graphql
   {
-    title: "settings / Entry-Types",
-    url: "/admin/settings/entry-types",
-    keywords: ["entry-types", "settings"],
-  },
-  {
-    title: "settings / Fields",
-    url: "/admin/settings/fields",
-    keywords: ["fields", "settings"],
-  },
-  {
-    title: "settings / Globals",
-    url: "/admin/settings/globals",
-    keywords: ["globals", "settings"],
-  },
-  {
-    title: "settings / Sections / new",
-    url: "/admin/settings/sections/new",
-    keywords: ["new section", "sections", "settings"],
-  },
-  {
-    title: "settings / Entry-Types / new",
-    url: "/admin/settings/entry-types/new",
-    keywords: ["new entry-type", "entry-types", "settings"],
-  },
-  {
-    title: "settings / Fields / new",
-    url: "/admin/settings/fields/new",
-    keywords: ["new field", "fields", "settings"],
-  },
-  {
-    title: "settings / Globals / new",
-    url: "/admin/settings/globals/new",
-    keywords: ["new global", "globals", "settings"],
-  },
-  {
-    title: "graphql / Schemas",
+    title: "GraphQL:Schemas",
     url: "/admin/graphql/schemas",
-    keywords: ["schemas", "graphql"],
+    aliases: ["gql:schemas"],
   },
   {
-    title: "graphql / Tokens",
+    title: "GraphQL:Tokens",
     url: "/admin/graphql/tokens",
-    keywords: ["tokens", "graphql"],
+    aliases: ["gql:tokens"],
   },
   {
-    title: "graphiQL",
+    title: "GraphQL:GraphiQL",
     url: "/admin/graphiql",
-    keywords: ["graphiql", "graphql"],
+    aliases: ["graphiql", "gql"],
+  },
+
+  // utilities
+  {
+    title: "utilities:Updates",
+    url: "/admin/utilities/updates",
+    aliases: ["upgrade"],
+  },
+  {
+    title: "utilities:System Report",
+    url: "/admin/utilities/system-report",
+    aliases: [],
+  },
+  {
+    title: "utilities:Project Config",
+    url: "/admin/utilities/project-config",
+    aliases: [],
+  },
+  {
+    title: "utilities:PHP Info",
+    url: "/admin/utilities/php-info",
+    aliases: [],
+  },
+  {
+    title: "utilities:Asset Indexes",
+    url: "/admin/utilities/asset-indexes",
+    aliases: [],
+  },
+  {
+    title: "utilities:Queue Manager",
+    url: "/admin/utilities/queue-manager",
+    aliases: [],
+  },
+  {
+    title: "utilities:Caches",
+    url: "/admin/utilities/clear-caches",
+    aliases: ["clear caches"],
+  },
+  {
+    title: "utilities:Deprecation Warnings",
+    url: "/admin/utilities/deprecation-errors",
+    aliases: ["deprecation errors"],
+  },
+  {
+    title: "utilities:Database Backup",
+    url: "/admin/utilities/db-backup",
+    aliases: ["db", "bu"],
+  },
+  {
+    title: "utilities:Find and Replace",
+    url: "/admin/utilities/find-replace",
+    aliases: [],
+  },
+  {
+    title: "utilities:Migrations",
+    url: "/admin/utilities/migrations",
+    aliases: [],
+  },
+
+  // Settings
+  {
+    title: "settings",
+    url: "/admin/settings",
+    aliases: [],
+  },
+  {
+    title: "settings:General",
+    url: "/admin/settings/general",
+    aliases: ["system-name", "system-status", "timezone"],
+  },
+  {
+    title: "settings:Sites",
+    url: "/admin/settings/sites",
+    aliases: ["system"],
+  },
+  {
+    title: "settings:Users",
+    url: "/admin/settings/users",
+    aliases: ["system"],
+  },
+  {
+    title: "settings:Addresses",
+    url: "/admin/settings/addresses",
+    aliases: ["system"],
+  },
+  {
+    title: "settings:Email",
+    url: "/admin/settings/email",
+    aliases: ["system"],
+  },
+  {
+    title: "settings:Plugins",
+    url: "/admin/settings/plugins",
+    aliases: ["system"],
+  },
+  {
+    title: "settings:Sections",
+    url: "/admin/settings/sections",
+    aliases: ["content"],
+  },
+  ...config.entries.sections.map((s) => ({
+    title: `settings:Sections:${s.name}:edit`,
+    url: `/admin/settings/sections/${s.id}`,
+    aliases: [`edit ${s.handle}`, `edit ${s.name}`],
+  })),
+
+  {
+    title: "settings:Entry-Types",
+    url: "/admin/settings/entry-types",
+    aliases: ["content"],
+  },
+  {
+    title: "settings:Fields",
+    url: "/admin/settings/fields",
+    aliases: ["content"],
+  },
+  {
+    title: "settings:Globals",
+    url: "/admin/settings/globals",
+    aliases: ["content", "globalset"],
+  },
+  ...config.globals.sets.map((s) => ({
+    title: `settings:Globals:${s.name}:edit`,
+    url: `/admin/settings/globals/${s.id}`,
+    aliases: [`edit ${s.handle}`, `edit ${s.name}`],
+  })),
+  {
+    title: "settings:Sections:create",
+    url: "/admin/settings/sections/new",
+    aliases: ["new section"],
+  },
+  {
+    title: "settings:Entry-Types:create",
+    url: "/admin/settings/entry-types/new",
+    aliases: ["new entry-type"],
+  },
+  {
+    title: "settings:Fields:create",
+    url: "/admin/settings/fields/new",
+    aliases: ["new field"],
+  },
+  {
+    title: "settings:Globals:create",
+    url: "/admin/settings/globals/new",
+    aliases: ["new globalset"],
   },
 ];
 
@@ -93,7 +218,7 @@ export function filterCommands(query) {
   return commands.filter((cmd) => {
     return (
       cmd.title.toLowerCase().includes(q) ||
-      cmd.keywords.some((kw) => kw.includes(q))
+      cmd.aliases.some((kw) => kw.includes(q))
     );
   });
 }

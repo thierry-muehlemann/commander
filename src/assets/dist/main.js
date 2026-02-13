@@ -1,8 +1,5 @@
 import { filterCommands, runCommand } from "./commands.js";
-
-function getConfig() {
-  return window.commanderConfig;
-}
+import { getConfig } from "./config.js";
 
 const config = getConfig();
 
@@ -129,14 +126,21 @@ function mountApp() {
 
     // display results
     commands.forEach((cmd) => {
-      const res = el("li");
-      res.innerText = cmd.title;
+      const res = createResult(cmd);
       results.appendChild(res);
     });
 
     if (commands.length) {
       setSelection(0);
     }
+  }
+
+  function createResult(cmd) {
+    const res = el("li");
+    cmd.title.split(":").forEach((part) => {
+      res.appendChild(el("span", undefined, [part]));
+    });
+    return res;
   }
 
   function selectNext() {

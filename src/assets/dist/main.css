@@ -35,6 +35,16 @@
     overflow: auto;
     li {
       padding: 0.5rem;
+      display: flex;
+      gap: 0.25rem;
+
+      span + span {
+        &::before {
+          content: ":";
+          opacity: 0.5;
+          margin-right: 0.25rem;
+        }
+      }
       &.selected {
         background: color-mix(
           in oklab,
