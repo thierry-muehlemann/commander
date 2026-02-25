@@ -98,7 +98,7 @@ function mountApp() {
         break;
       case "Enter":
         if (commands?.length) {
-          runCommand(commands[commandIndex]);
+          runCommand(commands[commandIndex], e.ctrlKey);
         }
     }
   });

@@ -223,8 +223,12 @@ export function filterCommands(query) {
   });
 }
 
-export function runCommand(command) {
+export function runCommand(command, alt = false) {
   if ("url" in command) {
+    if (alt) {
+      window.open(command.url, "_blank");
+      return;
+    }
     navigation.navigate(command.url);
   }
 }
