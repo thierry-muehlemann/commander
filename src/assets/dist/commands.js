@@ -2,8 +2,6 @@ import { getConfig } from "./config.js";
 
 const config = getConfig();
 
-console.log();
-
 export const commands = [
   // entries
   {

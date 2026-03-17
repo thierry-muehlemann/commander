@@ -67,7 +67,11 @@ function mountApp() {
 
     switch (e.key) {
       case "/":
+        e.preventDefault();
+        open();
+        break;
       case "k":
+        if (!e.ctrl) return;
         e.preventDefault();
         open();
         break;
